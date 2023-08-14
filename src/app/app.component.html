@@ -1,16 +1,31 @@
-<div class="map-wrap">
-  <div class="map" #map></div>
-</div>
 <!--
+<div class="map-wrap">
+  <div class="map" #map>
+    <mgl-marker [lngLat]="initialCoords"> </mgl-marker>
+  </div>
+</div>
 
-  <mgl-map
-    [style]="
-      'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL'
-    "
-    [zoom]="[14]"
-    [center]="[initialCoords[0], initialCoords[1]]"
-    #map
-  >
-    <mgl-control mglNavigation position="top-left"></mgl-control>
-  </mgl-map>
 -->
+<mgl-map
+  [style]="
+    'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL'
+  "
+  [zoom]="[14]"
+  [center]="initialCoords"
+  #map
+>
+  <mgl-marker *ngFor="let marker of markerList" [lngLat]="marker._lngLat">
+    <img
+      src="https://placekitten.com/g/27/41"
+      (click)="onMarkerClick(marker)"
+    />
+  </mgl-marker>
+  <mgl-control mglNavigation position="top-left"></mgl-control>
+  <mgl-control position="top-left">
+    <div class="modal" [ngClass]="{ 'is-active': selectedMarker }">
+      <p>Modal triggered by {{ selectedMarker?.name }}</p>
+    </div>
+  </mgl-control>
+</mgl-map>
+
+{{ selectedMarker }}
